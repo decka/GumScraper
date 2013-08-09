@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+<title>GumTree Scraper</title>
+</head>
+ 
+<body>
+ 
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        // reading in XML
+        $.ajax({
+            type: "GET",
+            url: "E:\\Programming\\LINQPad4\\list.xml",
+            dataType: "xml",
+            success: processXml
+        });
+    });
+ 
+    // function to process the read in XML
+    function processXml(xml) {
+        $('SearchResult', xml).each(function(){
+            $('.result tr:last').after('<tr><td>' + '<a href =' + $('Link', this).text() + '>' + $('Title', this).text() + '</a>' + '</td><td>' + $('Price', this).text() + '</td><td>' + $('Location', this).text() + '</td><td>' + $('TimestampFirstFound', this).text() + '</td></tr>');
+        });
+		$('#searchterm').append($('SearchTerm', xml).text());
+		$('#searchtimestamp').append($('SearchTimestamp', xml).text());
+    }
+</script>
+ 
+<table class="result" border="1">
+	<h1>Gumtree Scraper</h1>
+	<h2 id='searchterm'>Search Term: </h2>
+	<h2 id='searchtimestamp'>Search Timestamp: </h2>
+	<tr>
+        <th>
+            Title
+        </th>
+        <th>
+            Price
+        </th>
+		<th>
+			Location
+		</th>
+		<th>
+			Date
+		</th>
+    </tr>
+</table>
+ 
+</body>
+</html>
