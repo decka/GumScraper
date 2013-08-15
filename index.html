@@ -22,11 +22,14 @@
  
     // function to process the read in XML
     function processXml(xml) {
-        $('SearchResult', xml).each(function(){
-            $('.result tr:last').after('<tr><td>' + '<a href =' + $('Link', this).text() + '>' + $('Title', this).text() + '</a>' + '</td><td>' + $('Price', this).text() + '</td><td>' + $('Location', this).text() + '</td><td>' + $('TimestampFirstFound', this).text() + '</td></tr>');
+        $('SearchResult', xml).each(function() {
+			var ResultTimestamp = new Date(Date.parse($('TimestampFirstFound', this).text()));
+			
+            $('.result tr:last').after('<tr><td>' + '<a href =' + $('Link', this).text() + '>' + $('Title', this).text() + '</a>' + '</td><td>' + $('Price', this).text() + '</td><td>' + $('Location', this).text() + '</td><td>' + ResultTimestamp.toLocaleString() + '</td></tr>');
         });
 		$('#searchterm').append($('SearchTerm', xml).text());
-		$('#searchtimestamp').append($('SearchTimestamp', xml).text());
+		var SearchTimestamp = new Date(Date.parse($('SearchTimestamp', xml).text()));
+		$('#searchtimestamp').append(SearchTimestamp.toLocaleString());
     }
 </script>
  
@@ -45,7 +48,7 @@
 			Location
 		</th>
 		<th>
-			Date
+			Timestamp
 		</th>
     </tr>
 </table>
