@@ -1,8 +1,10 @@
 <Query Kind="Program">
-  <Reference Relative="HtmlAgilityPack.dll">F:\Temporary\GumScraper\HtmlAgilityPack.dll</Reference>
+  <Reference>E:\Programming\LINQPad4\HtmlAgilityPack.dll</Reference>
   <Reference>&lt;RuntimeDirectory&gt;\System.Web.dll</Reference>
+  <Reference>&lt;RuntimeDirectory&gt;\System.XML.dll</Reference>
   <Namespace>HtmlAgilityPack</Namespace>
   <Namespace>System.Web</Namespace>
+  <Namespace>System.Xml.Serialization</Namespace>
 </Query>
 
 void Main()
@@ -45,7 +47,7 @@ void Main()
 			}
 		}
 	}
-	Categories.Select(x => new { x.Name, x.ID }).OrderBy(x => x.Name).Dump();
+	Categories.Select(x => new { x.ParentName, x.Name, x.ID }).OrderBy(x => x.Name).Dump();
 }
 
 ushort CategoryLinkToID(string FullLink)
@@ -55,6 +57,13 @@ ushort CategoryLinkToID(string FullLink)
 
 class Category
 {
+	[XmlElement("ParentName")]
+	public string ParentName
+	{
+		get { return ParentCategory != null ? ParentCategory.Name : "none"; }
+	
+	}
+	[XmlIgnore]
 	public Category ParentCategory { get; set; }
 	public string Name { get; set; }
 	public ushort ID { get; set; }
